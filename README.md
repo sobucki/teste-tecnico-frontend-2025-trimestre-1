@@ -4,11 +4,11 @@ Teste técnico para a posição de Frontend Dev. Edição do primeiro trimestre 
 ## A proposta: Agenda de Endereços
 
 A ideia é bem simples: dado um **nome de usuário**, um **nome de exibição de endereço** e também um **CEP**,
-queremos que você implemente a busca pelos dados de endereço usando algum provedor gratuito de busca (como,
-por exemplo, o ViaCEP), salve estes dados de alguma forma no lado do cliente e exiba os contatos catalogados
-com as opções de filtro por usuário, cidade e estado, bem como a busca por nome de exibição do endereço.
-Pedimos também a capacidade de edição do nome de exibição do endereço e a possibilidade de exclusão de um
-contato.
+queremos que você implemente a busca pelos dados de endereço usando algum provedor gratuito de busca de
+endereço (como, por exemplo, o ViaCEP), salve estes dados de alguma forma no lado do cliente e exiba os
+contatos catalogados com as opções de filtro por usuário, cidade e estado, bem como a busca por nome de
+exibição do endereço. Pedimos também a capacidade de edição do nome de exibição do endereço e a possibilidade
+de exclusão de um contato.
 
 Quando sairmos e reentrarmos no site, esperamos que os contatos não tenham sumido, isto é, que exista
 persistência dos dados no lado do cliente.
