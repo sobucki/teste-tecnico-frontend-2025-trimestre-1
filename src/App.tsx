@@ -1,14 +1,27 @@
 import { Container, Typography, Grid } from "@mui/material";
 import AddressForm from "./components/address-form";
 import AddressList from "./components/address-list";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UserRegister } from "./components/address-form/types";
 
 function App() {
   const [addresses, setAddresses] = useState<UserRegister[]>([]);
 
+  useEffect(() => {
+    const data = localStorage.getItem("addresses");
+    if (data) {
+      setAddresses(JSON.parse(data));
+    }
+  }, []);
+
+  const saveAddressesLocalStorage = (list: UserRegister[]) => {
+    localStorage.setItem("addresses", JSON.stringify(list));
+  };
+
   const addAddress = (address: UserRegister) => {
-    setAddresses([...addresses, address]);
+    const newList = [...addresses, address];
+    setAddresses(newList);
+    saveAddressesLocalStorage(newList);
   };
 
   const updateName = (id: string, newName: string) => {
@@ -18,13 +31,13 @@ function App() {
       }
       return address;
     });
-
+    saveAddressesLocalStorage(updatedAddresses);
     setAddresses(updatedAddresses);
   };
-  console.log(addresses);
 
   const removeAddress = (id: string) => {
     const updatedAddresses = addresses.filter((address) => address.id !== id);
+    saveAddressesLocalStorage(updatedAddresses);
     setAddresses(updatedAddresses);
   };
 
