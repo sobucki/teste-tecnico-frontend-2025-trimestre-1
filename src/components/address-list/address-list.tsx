@@ -51,7 +51,7 @@ function AddressList({
         </TableHead>
         <TableBody>
           {addresses.map((address) => (
-            <TableRow key={address.user}>
+            <TableRow key={address.id}>
               <TableCell>{address.user}</TableCell>
               <TableCell>
                 {addressIdEdition === address.id ? (

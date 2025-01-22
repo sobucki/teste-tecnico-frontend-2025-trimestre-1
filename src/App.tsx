@@ -11,6 +11,7 @@ function App() {
   const [addresses, setAddresses] = useState<UserRegister[]>([]);
   const [filteredAddress, setFilteredAddress] = useState<UserRegister[]>([]);
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
+  const [currentFilter, setCurrentFilter] = useState<FilterOptions>({});
 
   useEffect(() => {
     const data = localStorage.getItem("addresses");
@@ -27,6 +28,7 @@ function App() {
   const addAddress = (address: UserRegister) => {
     const newList = [...addresses, address];
     setAddresses(newList);
+    updateFilteredAddress(newList, currentFilter);
     saveAddressesLocalStorage(newList);
   };
 
@@ -38,6 +40,7 @@ function App() {
       return address;
     });
     saveAddressesLocalStorage(updatedAddresses);
+    updateFilteredAddress(updatedAddresses, currentFilter);
     setAddresses(updatedAddresses);
   };
 
@@ -45,6 +48,7 @@ function App() {
     const updatedAddresses = addresses.filter((address) => address.id !== id);
     saveAddressesLocalStorage(updatedAddresses);
     setAddresses(updatedAddresses);
+    updateFilteredAddress(updatedAddresses, currentFilter);
   };
 
   const handleOpenFilterDialog = () => {
@@ -55,9 +59,11 @@ function App() {
     setFilterDialogOpen(false);
   };
 
-  const handleFilter = (filter: FilterOptions) => {
-    let temp = [...addresses];
-
+  const updateFilteredAddress = (
+    list: UserRegister[],
+    filter: FilterOptions
+  ) => {
+    let temp = [...list];
     if (filter.userName) {
       temp = temp.filter((address) =>
         address.user
@@ -89,6 +95,11 @@ function App() {
     }
 
     setFilteredAddress(temp);
+  };
+
+  const handleFilter = (filter: FilterOptions) => {
+    setCurrentFilter(filter);
+    updateFilteredAddress(addresses, filter);
   };
 
   return (
