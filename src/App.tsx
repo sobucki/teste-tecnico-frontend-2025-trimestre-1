@@ -1,11 +1,14 @@
-import { Container, Typography, Grid } from "@mui/material";
+import { Container, Typography, Fab } from "@mui/material";
 import AddressForm from "./components/address-form";
 import AddressList from "./components/address-list";
 import { useEffect, useState } from "react";
 import { UserRegister } from "./components/address-form/types";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import AddressFilter from "./components/address-filter";
 
 function App() {
   const [addresses, setAddresses] = useState<UserRegister[]>([]);
+  const [filterDialogOpen, setFilterDialogOpen] = useState(false);
 
   useEffect(() => {
     const data = localStorage.getItem("addresses");
@@ -41,6 +44,14 @@ function App() {
     setAddresses(updatedAddresses);
   };
 
+  const handleOpenFilterDialog = () => {
+    setFilterDialogOpen(true);
+  };
+
+  const handleCloseFilterDialog = () => {
+    setFilterDialogOpen(false);
+  };
+
   return (
     <>
       <Container sx={{ mt: 4 }}>
@@ -50,14 +61,27 @@ function App() {
 
         <AddressForm onSubmit={addAddress} />
 
-        {/* <Grid container spacing={2}>
-        <Grid item xs={12} md={6}></Grid>
-        </Grid> */}
         <AddressList
           addresses={addresses}
           onUpdateName={updateName}
           onRemoveAddress={removeAddress}
         />
+
+        <AddressFilter
+          initialFilter={{}}
+          open={filterDialogOpen}
+          onClose={handleCloseFilterDialog}
+          onFilterChange={(value) => console.log(value)}
+        />
+
+        <Fab
+          color="primary"
+          aria-label="filter"
+          onClick={handleOpenFilterDialog}
+          sx={{ position: "fixed", bottom: 16, right: 16 }}
+        >
+          <FilterListIcon />
+        </Fab>
       </Container>
     </>
   );
