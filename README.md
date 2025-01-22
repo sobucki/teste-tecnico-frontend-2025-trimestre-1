@@ -1,36 +1,67 @@
-# teste-tecnico-frontend-2025-trimestre-1
-Teste técnico para a posição de Frontend Dev. Edição do primeiro trimestre de 2025.
+# Agenda de Endereços - Teste Técnico
 
-## A proposta: Agenda de Endereços
+O propósito desse projeto é realizar um teste técnico, onde deve ser desenvolvido uma aplicação React que busca dados de endereços via API de um serviço externo, no caso cep-promise, e armazena-los no lado do cliente (local storage) o que permite acessar os dados após o recarregamento da página.
 
-A ideia é bem simples: dado um **nome de usuário**, um **nome de exibição de endereço** e também um **CEP**,
-queremos que você implemente a busca pelos dados de endereço usando algum provedor gratuito de busca de
-endereço (como, por exemplo, o ViaCEP), salve estes dados de alguma forma no lado do cliente e exiba os
-contatos catalogados com as opções de filtro por usuário, cidade e estado, bem como a busca por nome de
-exibição do endereço. Pedimos também a capacidade de edição do nome de exibição do endereço e a possibilidade
-de exclusão de um contato.
+## Funcionalidades
 
-Quando sairmos e reentrarmos no site, esperamos que os contatos não tenham sumido, isto é, que exista
-persistência dos dados no lado do cliente.
+- **Cadastro** de contatos, com nome de usuário, nome de exibição do endereço e CEP;
+- **Listagem** dos contatos;
+- **Edição** do nome de exibição na lista;
+- **Filtragem** por usuário, cidade, estado e busca por nome de exibição;
+- **Exclusão** de um contato.
 
-É esperado também que um toast seja exibido caso o endereço seja buscado com sucesso e outro para caso a busca
-de endereço falhe.
+---
 
-## Restrições
+## Demonstração
 
-A única limitação é o uso requerido do framework React.js para JavaScript.
+A aplicação está hospedada no Vercel e pode ser acessada através do link:
 
-Você tem total liberdade para usar as demais bibliotecas que mais lhe fornecerem produtividade.
+🔗 **[Agenda de Endereços](https://teste-tecnico-frontend-2025-trimestre-1-vuk2.vercel.app/)**
+---
 
-## Tempo proposto de conclusão e o que estamos avaliando
+### Tecnologias Utilizadas
 
-Este teste busca avaliar as seguintes competências:
+- [React (18.3.1)](https://github.com/facebook/react)
+- [Vite](https://github.com/vitejs/vite) (bundler)
+- [Typescript (5.6.2)](https://github.com/microsoft/TypeScript)
+- [Material UI](https://github.com/mui/material-ui)
+- [React Hook Form](https://github.com/react-hook-form/react-hook-form)
+- [ZOD](https://github.com/colinhacks/zod) (Validação de schemas)
+- [CEP Promise](https://github.com/BrasilAPI/cep-promise) (serviço de busca de CEPs)
+- [UUID](https://github.com/uuidjs/uuid) (geração de IDs para os contatos)
+- [ESLint](https://github.com/eslint/eslint) (padronização do código)
+- [Vitest](https://github.com/vitest-dev/vitest) (teste unitários)
 
-- Capacidade de integração de sistema frontend com APIs HTTP;
-- Domínio sobre as APIs de uso rotineiro do navegador;
-- Capacidade de organização de código (Adendo: organize da forma que for mais familiarizado, não estamos olhando para a estrutura de pastas, mas sim para a coesão e o desacoplamento) e
-- Domínio sobre APIs do Framework React.jS e árvore DOM.
+---
 
-O tempo proposto para a conclusão deste desafio técnico é de 1 (um) dia.
+#### Instalação e configuração
 
+1. Clonar o repositório:
 
+    ```bash
+    git clone git@github.com:sobucki/teste-tecnico-frontend-2025-trimestre-1.git
+    ```
+
+2. Acessar a pasta do projeto:
+
+  ```bash
+  cd teste-tecnico-frontend-2025-trimestre-1
+  ```
+
+1. Instalar dependências:
+
+  ```bash
+ npm install
+  ```
+
+4. Inicializar o servidor de desenvolvimento:
+
+  ```bash
+ npm run dev
+  ```
+
+O projeto inclui testes unitários, para executa-los use o comando:
+
+```bash
+npm run test
+```
