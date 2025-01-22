@@ -115,6 +115,7 @@ function App() {
           addresses={filteredAddress}
           onUpdateName={updateName}
           onRemoveAddress={removeAddress}
+          isFiltered={Object.keys(currentFilter).length > 0}
         />
 
         <AddressFilter
