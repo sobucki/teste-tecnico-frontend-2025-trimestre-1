@@ -1,4 +1,4 @@
-import { Container, Typography, Fab } from "@mui/material";
+import { Container, Typography, Fab, Tooltip, Box } from "@mui/material";
 import AddressForm from "./components/address-form";
 import AddressList from "./components/address-list";
 import { useState } from "react";
@@ -30,6 +30,8 @@ function App() {
   const handleFilter = (filter: FilterOptions) => {
     updateFilter(filter);
   };
+  const isFiltered = Object.keys(currentFilter).length > 0;
+  const fabColor = isFiltered ? "secondary" : "primary";
 
   return (
     <>
@@ -54,14 +56,13 @@ function App() {
           onFilterChange={handleFilter}
         />
 
-        <Fab
-          color="primary"
-          aria-label="filter"
-          onClick={handleOpenFilterDialog}
-          sx={{ position: "fixed", bottom: 16, right: 16 }}
-        >
-          <FilterListIcon />
-        </Fab>
+        <Box sx={{ position: "fixed", bottom: 16, right: 16 }}>
+          <Tooltip title="Filtros">
+            <Fab color={fabColor} onClick={handleOpenFilterDialog}>
+              <FilterListIcon />
+            </Fab>
+          </Tooltip>
+        </Box>
       </Container>
     </>
   );

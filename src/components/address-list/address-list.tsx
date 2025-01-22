@@ -10,6 +10,7 @@ import {
   TextField,
   Button,
   Box,
+  Tooltip,
 } from "@mui/material";
 
 import EditIcon from "@mui/icons-material/Edit";
@@ -41,15 +42,23 @@ function AddressList({
 
   return (
     <TableContainer component={Paper} sx={{ mt: 4 }}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Usuário</TableCell>
             <TableCell>Nome</TableCell>
-            <TableCell>Logradouro</TableCell>
-            <TableCell>CEP</TableCell>
-            <TableCell>Cidade</TableCell>
-            <TableCell>Estado</TableCell>
+            <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
+              Logradouro
+            </TableCell>
+            <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
+              CEP
+            </TableCell>
+            <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
+              Cidade
+            </TableCell>
+            <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
+              Estado
+            </TableCell>
             <TableCell>Ações</TableCell>
           </TableRow>
         </TableHead>
@@ -71,10 +80,18 @@ function AddressList({
                     address.displayName
                   )}
                 </TableCell>
-                <TableCell>{address.street}</TableCell>
-                <TableCell>{address.cep}</TableCell>
-                <TableCell>{address.city}</TableCell>
-                <TableCell>{address.state}</TableCell>
+                <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
+                  {address.street}
+                </TableCell>
+                <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
+                  {address.cep}
+                </TableCell>
+                <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
+                  {address.city}
+                </TableCell>
+                <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
+                  {address.state}
+                </TableCell>
                 <TableCell>
                   {addressIdEdition === address.id ? (
                     <>
@@ -93,18 +110,24 @@ function AddressList({
                     </>
                   ) : (
                     <>
-                      <IconButton
-                        color="primary"
-                        onClick={() => handleEdit(address)}
-                      >
-                        <EditIcon />
-                      </IconButton>
-                      <IconButton
-                        color="secondary"
-                        onClick={() => onRemoveAddress(address.id)}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
+                      <Tooltip title="Editar">
+                        <IconButton
+                          color="primary"
+                          aria-label="edit-button"
+                          onClick={() => handleEdit(address)}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Remover">
+                        <IconButton
+                          color="secondary"
+                          aria-label="delete-button"
+                          onClick={() => onRemoveAddress(address.id)}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
                     </>
                   )}
                 </TableCell>

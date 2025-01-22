@@ -47,8 +47,8 @@ A aplicação está hospedada no Vercel e pode ser acessada através do link:
   ```bash
   cd teste-tecnico-frontend-2025-trimestre-1
   ```
-
-1. Instalar dependências:
+  
+3. Instalar dependências:
 
   ```bash
  npm install
