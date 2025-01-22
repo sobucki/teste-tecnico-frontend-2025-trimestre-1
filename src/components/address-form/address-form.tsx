@@ -4,11 +4,13 @@ import { Controller, useForm } from "react-hook-form";
 import ReactInputMask from "react-input-mask";
 import { useSnackbar } from "notistack";
 import { z } from "zod";
+import { v4 as uuidv4 } from "uuid";
 import { zodResolver } from "@hookform/resolvers/zod";
-import useCep from "../hooks/use-cep";
+import useCep from "../../hooks/use-cep";
 import { addressSchema } from "./validation";
+import { AddressFormProps } from "./types";
 
-function AddressForm() {
+function AddressForm({ onSubmit: saveAddress }: AddressFormProps) {
   const { enqueueSnackbar } = useSnackbar();
   const { searchCEP, isLoading } = useCep();
 
@@ -41,7 +43,7 @@ function AddressForm() {
       const { state, city, street, neighborhood } = result;
 
       const newAddress = {
-        id: Date.now().toString(),
+        id: uuidv4(),
         user: formData.user,
         displayName: formData.displayName,
         cep: formData.cep,
@@ -51,7 +53,7 @@ function AddressForm() {
         state,
       };
 
-      console.log(newAddress);
+      saveAddress(newAddress);
 
       enqueueSnackbar("Endereço buscado e salvo com sucesso!", {
         variant: "success",
@@ -59,7 +61,7 @@ function AddressForm() {
 
       reset();
     } catch (error) {
-      console.log(error);
+      console.error(error);
 
       enqueueSnackbar("Falha ao buscar CEP.", { variant: "error" });
     }

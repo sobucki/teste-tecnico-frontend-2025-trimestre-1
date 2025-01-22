@@ -14,6 +14,15 @@ const theme = createTheme({
       main: "#9c27b0",
     },
   },
+  components: {
+    MuiTableCell: {
+      styleOverrides: {
+        head: {
+          fontWeight: "bold",
+        },
+      },
+    },
+  },
 });
 
 createRoot(document.getElementById("root")!).render(
