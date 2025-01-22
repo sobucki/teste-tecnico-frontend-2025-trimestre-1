@@ -11,6 +11,11 @@ import {
   Button,
   Box,
   Tooltip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Typography,
+  DialogActions,
 } from "@mui/material";
 
 import EditIcon from "@mui/icons-material/Edit";
@@ -30,6 +35,9 @@ function AddressList({
   const [addressIdEdition, setAddressIdEdition] = useState<string | null>();
   const [newName, setNewName] = useState("");
 
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [addressToDelete, setAddressToDelete] = useState<string | null>(null);
+
   const handleEdit = (address: UserRegister) => {
     setAddressIdEdition(address.id);
     setNewName(address.displayName);
@@ -40,103 +48,139 @@ function AddressList({
     setAddressIdEdition(null);
   };
 
+  const handleOpenDeleteDialog = (id: string) => {
+    setAddressToDelete(id);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleCancelDelete = () => {
+    setDeleteDialogOpen(false);
+    setAddressToDelete(null);
+  };
+
+  const handleConfirmDelete = () => {
+    if (addressToDelete) {
+      onRemoveAddress(addressToDelete);
+    }
+
+    setDeleteDialogOpen(false);
+    setAddressToDelete(null);
+  };
+
   return (
-    <TableContainer component={Paper} sx={{ mt: 4 }}>
-      <Table aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Usuário</TableCell>
-            <TableCell>Nome</TableCell>
-            <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
-              Logradouro
-            </TableCell>
-            <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
-              CEP
-            </TableCell>
-            <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
-              Cidade
-            </TableCell>
-            <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
-              Estado
-            </TableCell>
-            <TableCell>Ações</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {addresses.length === 0 ? (
-            <EmptyList isFilterApplied={isFiltered} />
-          ) : (
-            addresses.map((address) => (
-              <TableRow key={address.id}>
-                <TableCell>{address.user}</TableCell>
-                <TableCell>
-                  {addressIdEdition === address.id ? (
-                    <TextField
-                      value={newName}
-                      onChange={(e) => setNewName(e.target.value)}
-                      size="small"
-                    />
-                  ) : (
-                    address.displayName
-                  )}
-                </TableCell>
-                <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
-                  {address.street}
-                </TableCell>
-                <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
-                  {address.cep}
-                </TableCell>
-                <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
-                  {address.city}
-                </TableCell>
-                <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
-                  {address.state}
-                </TableCell>
-                <TableCell>
-                  {addressIdEdition === address.id ? (
-                    <>
-                      <Button
+    <>
+      <TableContainer component={Paper} sx={{ mt: 4 }}>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Usuário</TableCell>
+              <TableCell>Nome</TableCell>
+              <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
+                Logradouro
+              </TableCell>
+              <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
+                CEP
+              </TableCell>
+              <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
+                Cidade
+              </TableCell>
+              <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
+                Estado
+              </TableCell>
+              <TableCell>Ações</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {addresses.length === 0 ? (
+              <EmptyList isFilterApplied={isFiltered} />
+            ) : (
+              addresses.map((address) => (
+                <TableRow key={address.id}>
+                  <TableCell>{address.user}</TableCell>
+                  <TableCell>
+                    {addressIdEdition === address.id ? (
+                      <TextField
+                        value={newName}
+                        onChange={(e) => setNewName(e.target.value)}
                         size="small"
-                        onClick={() => handleSave(address.id)}
-                      >
-                        Salvar
-                      </Button>
-                      <Button
-                        size="small"
-                        onClick={() => setAddressIdEdition(null)}
-                      >
-                        Cancelar
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <Tooltip title="Editar">
-                        <IconButton
-                          color="primary"
-                          aria-label="edit-button"
-                          onClick={() => handleEdit(address)}
+                      />
+                    ) : (
+                      address.displayName
+                    )}
+                  </TableCell>
+                  <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
+                    {address.street}
+                  </TableCell>
+                  <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
+                    {address.cep}
+                  </TableCell>
+                  <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
+                    {address.city}
+                  </TableCell>
+                  <TableCell sx={{ display: { xs: "none", sm: "table-cell" } }}>
+                    {address.state}
+                  </TableCell>
+                  <TableCell>
+                    {addressIdEdition === address.id ? (
+                      <>
+                        <Button
+                          size="small"
+                          onClick={() => handleSave(address.id)}
                         >
-                          <EditIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Remover">
-                        <IconButton
-                          color="secondary"
-                          aria-label="delete-button"
-                          onClick={() => onRemoveAddress(address.id)}
+                          Salvar
+                        </Button>
+                        <Button
+                          size="small"
+                          onClick={() => setAddressIdEdition(null)}
                         >
-                          <DeleteIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </>
-                  )}
-                </TableCell>
-              </TableRow>
-            ))
-          )}
-        </TableBody>
-      </Table>
-    </TableContainer>
+                          Cancelar
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <Tooltip title="Editar">
+                          <IconButton
+                            color="primary"
+                            aria-label="edit-button"
+                            onClick={() => handleEdit(address)}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Remover">
+                          <IconButton
+                            color="secondary"
+                            aria-label="delete-button"
+                            onClick={() => handleOpenDeleteDialog(address.id)}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      <Dialog open={deleteDialogOpen} onClose={handleCancelDelete}>
+        <DialogTitle>Confirmar Remoção</DialogTitle>
+        <DialogContent dividers>
+          <Typography>Tem certeza que deseja remover este endereço?</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancelDelete} color="primary">
+            Cancelar
+          </Button>
+          <Button onClick={handleConfirmDelete} color="error" autoFocus>
+            Remover
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }
 
