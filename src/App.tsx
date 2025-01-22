@@ -1,55 +1,23 @@
 import { Container, Typography, Fab } from "@mui/material";
 import AddressForm from "./components/address-form";
 import AddressList from "./components/address-list";
-import { useEffect, useState } from "react";
-import { UserRegister } from "./components/address-form/types";
+import { useState } from "react";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import AddressFilter from "./components/address-filter";
 import { FilterOptions } from "./components/address-filter/types";
+import useAddress from "./hooks/use-address";
 
 function App() {
-  const [addresses, setAddresses] = useState<UserRegister[]>([]);
-  const [filteredAddress, setFilteredAddress] = useState<UserRegister[]>([]);
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
-  const [currentFilter, setCurrentFilter] = useState<FilterOptions>({});
 
-  useEffect(() => {
-    const data = localStorage.getItem("addresses");
-    if (data) {
-      setAddresses(JSON.parse(data));
-      setFilteredAddress(JSON.parse(data));
-    }
-  }, []);
-
-  const saveAddressesLocalStorage = (list: UserRegister[]) => {
-    localStorage.setItem("addresses", JSON.stringify(list));
-  };
-
-  const addAddress = (address: UserRegister) => {
-    const newList = [...addresses, address];
-    setAddresses(newList);
-    updateFilteredAddress(newList, currentFilter);
-    saveAddressesLocalStorage(newList);
-  };
-
-  const updateName = (id: string, newName: string) => {
-    const updatedAddresses = addresses.map((address) => {
-      if (address.id === id) {
-        return { ...address, displayName: newName };
-      }
-      return address;
-    });
-    saveAddressesLocalStorage(updatedAddresses);
-    updateFilteredAddress(updatedAddresses, currentFilter);
-    setAddresses(updatedAddresses);
-  };
-
-  const removeAddress = (id: string) => {
-    const updatedAddresses = addresses.filter((address) => address.id !== id);
-    saveAddressesLocalStorage(updatedAddresses);
-    setAddresses(updatedAddresses);
-    updateFilteredAddress(updatedAddresses, currentFilter);
-  };
+  const {
+    addAddress,
+    currentFilter,
+    filteredList,
+    removeAddress,
+    updateFilter,
+    updateName,
+  } = useAddress();
 
   const handleOpenFilterDialog = () => {
     setFilterDialogOpen(true);
@@ -59,47 +27,8 @@ function App() {
     setFilterDialogOpen(false);
   };
 
-  const updateFilteredAddress = (
-    list: UserRegister[],
-    filter: FilterOptions
-  ) => {
-    let temp = [...list];
-    if (filter.userName) {
-      temp = temp.filter((address) =>
-        address.user
-          .toLowerCase()
-          .includes(filter.userName?.toLowerCase().trim() || "")
-      );
-    }
-
-    if (filter.displayName) {
-      temp = temp.filter((address) =>
-        address.displayName
-          .toLowerCase()
-          .includes(filter.displayName?.toLowerCase().trim() || "")
-      );
-    }
-
-    if (filter.city) {
-      temp = temp.filter((address) =>
-        address.city
-          .toLowerCase()
-          .includes(filter.city?.toLowerCase().trim() || "")
-      );
-    }
-
-    if (filter.state) {
-      temp = temp.filter((address) =>
-        address.state.toLowerCase().includes(filter.state?.toLowerCase() || "")
-      );
-    }
-
-    setFilteredAddress(temp);
-  };
-
   const handleFilter = (filter: FilterOptions) => {
-    setCurrentFilter(filter);
-    updateFilteredAddress(addresses, filter);
+    updateFilter(filter);
   };
 
   return (
@@ -112,7 +41,7 @@ function App() {
         <AddressForm onSubmit={addAddress} />
 
         <AddressList
-          addresses={filteredAddress}
+          addresses={filteredList}
           onUpdateName={updateName}
           onRemoveAddress={removeAddress}
           isFiltered={Object.keys(currentFilter).length > 0}

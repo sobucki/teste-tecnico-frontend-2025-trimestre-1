@@ -1,0 +1,42 @@
+[
+  {
+    "id": "66087f9c-ef5b-4cd6-9466-c0b23fc07840",
+    "cep": "69945-970",
+    "state": "AC",
+    "city": "Acrelândia",
+    "street": "Avenida Paraná, s/n",
+    "neighborhood": "Centro",
+    "user": "user-1",
+    "displayName": "Principal"
+  },
+  {
+    "id": "bfef0904-b93c-4650-92ce-6e7b9f568e41",
+    "cep": "68904-020",
+    "state": "AP",
+    "city": "Macapá",
+    "street": "Rua Leopoldo Queirós Teixeira",
+    "neighborhood": "Novo Buritizal",
+    "user": "user-2",
+    "displayName": "Casa"
+  },
+  {
+    "id": "51fb9b1e-2d65-4357-bc3d-9da18c31dcff",
+    "cep": "68903-864",
+    "state": "AP",
+    "city": "Macapá",
+    "street": "Passarela Bom Jesus",
+    "neighborhood": "Araxá",
+    "user": "user-3",
+    "displayName": "Casa"
+  },
+  {
+    "id": "8ef91579-2ea3-4431-bd6f-508f94b69f7a",
+    "cep": "71827-765",
+    "state": "DF",
+    "city": "Brasília",
+    "street": "Chácara Chácara 31",
+    "neighborhood": "Riacho Fundo I",
+    "user": "user-4",
+    "displayName": "Novo endereço"
+  }
+]
