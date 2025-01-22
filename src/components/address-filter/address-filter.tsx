@@ -32,6 +32,7 @@ function AddressFilter({
     setCity("");
     setState("");
 
+    onFilterChange({});
     onClose();
   };
 

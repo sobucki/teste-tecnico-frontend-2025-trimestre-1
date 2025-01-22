@@ -5,15 +5,18 @@ import { useEffect, useState } from "react";
 import { UserRegister } from "./components/address-form/types";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import AddressFilter from "./components/address-filter";
+import { FilterOptions } from "./components/address-filter/types";
 
 function App() {
   const [addresses, setAddresses] = useState<UserRegister[]>([]);
+  const [filteredAddress, setFilteredAddress] = useState<UserRegister[]>([]);
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
 
   useEffect(() => {
     const data = localStorage.getItem("addresses");
     if (data) {
       setAddresses(JSON.parse(data));
+      setFilteredAddress(JSON.parse(data));
     }
   }, []);
 
@@ -52,6 +55,42 @@ function App() {
     setFilterDialogOpen(false);
   };
 
+  const handleFilter = (filter: FilterOptions) => {
+    let temp = [...addresses];
+
+    if (filter.userName) {
+      temp = temp.filter((address) =>
+        address.user
+          .toLowerCase()
+          .includes(filter.userName?.toLowerCase().trim() || "")
+      );
+    }
+
+    if (filter.displayName) {
+      temp = temp.filter((address) =>
+        address.displayName
+          .toLowerCase()
+          .includes(filter.displayName?.toLowerCase().trim() || "")
+      );
+    }
+
+    if (filter.city) {
+      temp = temp.filter((address) =>
+        address.city
+          .toLowerCase()
+          .includes(filter.city?.toLowerCase().trim() || "")
+      );
+    }
+
+    if (filter.state) {
+      temp = temp.filter((address) =>
+        address.state.toLowerCase().includes(filter.state?.toLowerCase() || "")
+      );
+    }
+
+    setFilteredAddress(temp);
+  };
+
   return (
     <>
       <Container sx={{ mt: 4 }}>
@@ -62,7 +101,7 @@ function App() {
         <AddressForm onSubmit={addAddress} />
 
         <AddressList
-          addresses={addresses}
+          addresses={filteredAddress}
           onUpdateName={updateName}
           onRemoveAddress={removeAddress}
         />
@@ -71,7 +110,7 @@ function App() {
           initialFilter={{}}
           open={filterDialogOpen}
           onClose={handleCloseFilterDialog}
-          onFilterChange={(value) => console.log(value)}
+          onFilterChange={handleFilter}
         />
 
         <Fab
